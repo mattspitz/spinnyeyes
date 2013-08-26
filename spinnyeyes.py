@@ -9,7 +9,7 @@ TOTAL_ROTATION_TIME_MS = 1000 # ms
 NUM_POINTS = int(round((TOTAL_ROTATION_TIME_MS / 1000.0) * TARGET_FRAME_RATE))
 TICK_TIME_S = 1.0 / TARGET_FRAME_RATE
 
-SPIRAL_OUT_PCT = 0.4          # when spiralling out/in, do so over 40% of the circle
+SPIRAL_OUT_PCT = 0.25          # when spiralling out/in, do so over 40% of the circle
 NUM_SPIRAL_POINTS = int(NUM_POINTS * SPIRAL_OUT_PCT)
 
 
@@ -61,9 +61,7 @@ def precalculate_points():
 
         def get_spiral_r(pct):
             assert 0 <= pct <= 1.0
-            base = 3.0
-            # grows quickly between 0 and 1, but we still need to clamp it
-            scaled_pct = min(1.0, math.log(32*pct + 1, base) / base)
+            scaled_pct = math.sqrt(pct)
             return int(circle_r * scaled_pct)
 
         if i < NUM_SPIRAL_POINTS:
